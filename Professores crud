@@ -32,14 +32,6 @@ def pede_periodo(): #pede o periodo
 
 
 
-def pesquisa_prof(nome):         #pesquisar professores
-     mnome = nome.lower()
-     for p, e, c in enumerate(professores):
-         if e[0].lower() == mnome:
-               return p
-     return None
-
-
 def novo_alu(): #novo cadastro
   nome = pede_nome()
   cpf = pede_cpf()
@@ -49,9 +41,9 @@ def novo_alu(): #novo cadastro
 
 def novo_prof(): #novo cadastro
   global professores
-  nome = pede_nome()
-  cpf = pede_cpf()
-  departamento = pede_depart()
+  nome = pede_nome().upper().strip()
+  cpf = pede_cpf().strip()
+  departamento = pede_depart().strip().upper()
   arquivo = open("professores.txt", "a", encoding = "utf-8")
   arquivo.write("%s#%s#%s\n" % (nome, cpf, departamento))
   arquivo.close()
@@ -77,17 +69,24 @@ def nova_turma(): #novo cadastro
 
 def consulta_prof():
   global professores
-  cnome = pede_nome()
   arquivo = open("professores.txt", "r")
   professores = []
   for c in arquivo.readlines():
     nome, cpf, departamento = c.strip().split("#")
     professores.append([nome, cpf, departamento])
     arquivo.close()
-  p = pesquisa(pede_nome())
-  if p != None:
-    nome
-      
+  p = pede_nome().upper()
+  achou = False
+  for i in professores:
+     if i[0] == p:
+        achou = True
+        break  
+     else:
+        continue
+  if achou == True:
+     print("\n\n\nNome: %s\nCPF: %s\nDepartamento: %s\n\n" % (i[0], i[1], i[2]))
+  else:
+     print("\n\n\n ### Professor não encontrado ###\n\n\n")
 
 
 def valida_faixa_inteiro(pergunta, inicio, fim):  #Validação de entrada do usuário
